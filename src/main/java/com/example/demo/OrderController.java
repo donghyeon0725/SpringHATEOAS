@@ -29,15 +29,20 @@ class OrderController {
 
         // api 사용자가 할 수 있는 일을 추가한다.
         Link link = new Link("http://localhost:8080/orders");
+        // withSelfRel => 현재 요청 받은 URI
         Link self = linkTo(OrderController.class).slash(orders.getId()).withSelfRel();
+        // withRel => 클라이언트가 바라볼 이름 modify(수정)
         Link modify = linkTo(OrderController.class).slash(orders.getId()).withRel("modify").withType("UPDATE");
+        // withType => DELETE 메소드로 호출할 수 있음을 알림
         Link cancel = linkTo(OrderController.class).slash(orders.getId()).withRel("cancel").withType("DELETE");
 
+        // 링크로 삽입
         orders.add(link);
         orders.add(self);
         orders.add(modify);
         orders.add(cancel);
 
+        // Order{identity='P0002', goods='지우개', quantity=1, orderer='김민수'}
         System.out.println(orders);
 
         return new ResponseEntity<Order>(orders, HttpStatus.OK);
